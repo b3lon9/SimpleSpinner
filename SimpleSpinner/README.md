@@ -7,4 +7,6 @@ Spinner Structure
 - Popup크기가 View크기와 동일하도록 수정 : (2023.03.23)
 - Popup 표출 위치가 View의 상단, 하단 Boolean상태로 설정창 구성
 - Popup 표출 위치 offset X, Y 설정창 구성
+
+- 저작권 생성 : (2023.03.23)
 ```
