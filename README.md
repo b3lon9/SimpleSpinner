@@ -1,5 +1,6 @@
 #### SimpleSpinner
 
+[![](https://jitpack.io/v/b3lon9/SimpleSpinner.svg)](https://jitpack.io/#b3lon9/SimpleSpinner)
 ```
 allprojects {
     repositories {
@@ -11,6 +12,6 @@ allprojects {
 
 ```
 dependencies {
-        implementation 'com.github.b3lon9:SimpleSpinner:1.0.1'
+        implementation 'com.github.b3lon9:SimpleSpinner:1.0.2'
 }
 ```
