@@ -12,21 +12,32 @@ import android.widget.PopupWindow;
 
 import com.b3lon9.app.simplespinner.adapter.SimpleSpinnerAdapter;
 
+/**
+ * @SimpleSpinner Layout Cycle
+ * OnFinishInflate() > init() > onLayout()
+ */
 @SuppressLint("AppCompatCustomView")
-public class SimpleSpinner extends Button implements View.OnClickListener {
-    private Button main;
+public class SimpleSpinner extends Button implements View.OnClickListener, AdapterView.OnItemClickListener {
     private PopupWindow popupWindow;
+    private SimpleSpinnerAdapter adapter;
+
+    /**
+     * SimpleSpinner present Property
+     * */
+    private boolean is_popup_outside_touch = true;
+
+
 
     /**
      * Constructor : Programmatically
-     * */
+     */
     public SimpleSpinner(Context context) {
         super(context);
     }
 
     /**
      * Constructor : XML
-     * */
+     */
     public SimpleSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -34,34 +45,58 @@ public class SimpleSpinner extends Button implements View.OnClickListener {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        main = this;
-        this.setOnClickListener(this);
+        init();
+    }
 
-        LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        popupWindow = new PopupWindow(getContext());
-        View popup_view = layoutInflater.inflate(R.layout.popup_list, null, false);
-        ListView listView = (ListView)popup_view.findViewById(R.id.popup_list);
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
 
-        SimpleSpinnerAdapter adapter = new SimpleSpinnerAdapter(getContext());
-        adapter.setData(getResources().getStringArray(R.array.color_array));
-        listView.setAdapter(adapter);
-        popupWindow.setContentView(popup_view);
+        // popup layout size
+        popupWindow.setWidth(getWidth());
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                main.setText(adapter.getItem(position));
-            }
-        });
+        // popup list height
+        adapter.setItemHeight(getHeight());
     }
 
     @Override
     public void onClick(View view) {
-        show();
-    }
-
-    public void show() {
         popupWindow.showAsDropDown(this);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        setText(adapter.getItem(position));
+        popupWindow.dismiss();
+    }
+
+    private void init() {
+        // View ClickListener
+        this.setOnClickListener(this);
+
+        // measure width, height : because view is not drawing yet
+        measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+
+        // Popup init
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        popupWindow = new PopupWindow(getContext());
+        popupWindow.setOutsideTouchable(is_popup_outside_touch);
+        popupWindow.setWidth(getMeasuredWidth());
+
+        // Popup layout
+        View popup_view = layoutInflater.inflate(R.layout.popup_list, null, false);
+        popupWindow.setContentView(popup_view);
+
+        // Popup list & adapter
+        ListView listView = (ListView) popup_view.findViewById(R.id.popup_list);
+        adapter = new SimpleSpinnerAdapter(getContext());
+        adapter.setData(getResources().getStringArray(R.array.color_array));
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
+    }
+
+    // popup outside touchable
+    public void setOutsideTouchable(boolean is_popup_outside_touch) {
+        this.is_popup_outside_touch = is_popup_outside_touch;
+    }
 }
