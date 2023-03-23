@@ -27,7 +27,6 @@ import android.widget.PopupWindow;
 
 import com.b3lon9.app.simplespinner.adapter.SimpleSpinnerAdapter;
 import com.b3lon9.app.simplespinner.databinding.PopupListBinding;
-import com.b3lon9.app.simplespinner.util.Debug;
 
 /**
  * @SimpleSpinner Layout Cycle :
@@ -118,6 +117,7 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         popupWindow = new PopupWindow(getContext());
         popupWindow.setOutsideTouchable(is_popup_outside_touch);
+        popupWindow.setAnimationStyle(R.style.animation_dropdown);
 
         // Popup layout
         popupListBinding = PopupListBinding.inflate(layoutInflater);

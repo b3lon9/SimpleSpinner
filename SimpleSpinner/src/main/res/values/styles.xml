@@ -16,4 +16,9 @@
  * limitations under the License.
  */
 -->
-<resources></resources>
+<resources>
+    <style name="animation_dropdown">
+        <item name="android:windowEnterAnimation">@anim/popup_dropdown_down</item>
+        <item name="android:windowExitAnimation">@anim/popup_dropdown_up</item>
+    </style>
+</resources>

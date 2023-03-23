@@ -10,6 +10,7 @@ Spinner Structure
 - Popup 레이아웃 setter 구성 
 - Builder 구성
 - attr 구성
+- Popup 애니메이션 적용 : (2023.03.23)
 
 - 저작권 생성 : (2023.03.23)
 ```
