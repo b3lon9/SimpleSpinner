@@ -12,6 +12,6 @@ allprojects {
 
 ```
 dependencies {
-        implementation 'com.github.b3lon9:SimpleSpinner:1.0.2'
+        implementation 'com.github.b3lon9:SimpleSpinner:1.0.3'
 }
 ```
