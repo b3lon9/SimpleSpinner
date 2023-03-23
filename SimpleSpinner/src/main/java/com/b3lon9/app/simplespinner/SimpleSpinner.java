@@ -37,21 +37,21 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
     private SimpleSpinnerAdapter adapter;
 
     /**
-     * SimpleSpinner present Property
+     * @SimpleSpinner present Property
      * */
     private boolean is_popup_outside_touch = true;
 
 
 
     /**
-     * Constructor : Programmatically
+     * @Constructor : Programmatically
      */
     public SimpleSpinner(Context context) {
         super(context);
     }
 
     /**
-     * Constructor : XML
+     * @Constructor : XML
      */
     public SimpleSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
