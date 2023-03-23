@@ -30,10 +30,15 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
     private String[] data;
 
     private int item_height;
-    private int gravity = Gravity.CENTER;
+    private int gravity;
 
     public SimpleSpinnerAdapter(Context context) {
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public SimpleSpinnerAdapter(Context context, String[] data) {
+        layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.data = data;
     }
 
     @Override
@@ -84,5 +89,4 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
     public void setGravity(int gravity) {
         this.gravity = gravity;
     }
-
 }
