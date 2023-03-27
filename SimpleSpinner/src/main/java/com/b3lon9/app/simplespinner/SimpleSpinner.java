@@ -17,6 +17,7 @@ package com.b3lon9.app.simplespinner;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -62,12 +63,24 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
     /**
      * @PopupList Title IsVisible
      * */
-    private boolean is_popup_list_title_visible = false;
+    private boolean is_popup_list_title_visible;
 
     /**
      * @PopupList Item Gravity
      * */
     private int popup_list_item_gravity = -1;
+
+    private int popup_width;
+
+    private int popup_height;
+
+    private int popup_pivot_x;
+
+    private int popup_pivot_y;
+
+    private int popup_width_offset;
+
+    private int popup_height_offset;
 
 
 
@@ -83,6 +96,7 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
      */
     public SimpleSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setAttr(attrs);
     }
 
     @Override
@@ -106,6 +120,16 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         setText(adapter.getItem(position));
         popupWindow.dismiss();
+    }
+
+
+
+    private void setAttr(AttributeSet attributeSet) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.SimpleSpinner);
+
+        is_popup_list_title_visible = typedArray.getBoolean(R.styleable.SimpleSpinner_popup_visibility, false);
+        popup_width = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_popup_width, -1);
+        popup_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_popup_height, -1);
     }
 
 
@@ -145,10 +169,14 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
 
     public void updateLayout() {
         // popup layout size
-        popupWindow.setWidth(getWidth());
+        int width = popup_width == -1 ? getWidth() - popup_width_offset : popup_width - popup_width_offset;
+        popupWindow.setWidth(width);
 
         // popup list height
-        adapter.setItemHeight(getHeight());
+        int height = popup_height == -1 ? getWidth() - popup_height_offset : popup_height - popup_height_offset;
+        popupWindow.setHeight(height);
+
+        adapter.setItemHeight(getWidth());
 
         // popup list title check
         if (TextUtils.isEmpty(popupListBinding.popupTitle.getText())) {

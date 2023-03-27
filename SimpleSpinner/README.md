@@ -9,7 +9,12 @@ Spinner Structure
 - Popup 표출 위치 offset X, Y 설정창 구성
 - Popup 레이아웃 setter 구성 
 - Builder 구성
-- attr 구성
+- attr 구성 : (2023.03.27)
+    - pivot
+    - showDropDown Location
+    - popup item height
+    - ... 
+    
 - Popup 애니메이션 적용 : (2023.03.23)
 
 - 저작권 생성 : (2023.03.23)
