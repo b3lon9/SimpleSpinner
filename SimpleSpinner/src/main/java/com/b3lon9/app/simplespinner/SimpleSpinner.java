@@ -31,15 +31,17 @@ import com.b3lon9.app.simplespinner.adapter.SimpleSpinnerAdapter;
 import com.b3lon9.app.simplespinner.databinding.SpinnerListBinding;
 
 /**
+ * Spinner means PopupWindow
+ * you will read to under contents all to Spinner(PopupWindow)
+ * I felt uncomfortable origin Spinner ViewGroup of Android Framework
+ * so I decide to make useful easy Custom Spinner, which used to everyone
+ * */
+/**
  * @SimpleSpinner Layout Cycle :
  * OnFinishInflate() > init() > onLayout()
  */
 @SuppressLint("AppCompatCustomView")
 public class SimpleSpinner extends Button implements View.OnClickListener, AdapterView.OnItemClickListener {
-    /**
-     * @SimpleSpinnerAdapter adapter
-     * */
-    private SimpleSpinnerAdapter adapter;
 
     /**
      * @PopupWindow popupWindow -> name : spinner
@@ -52,27 +54,39 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
     private SpinnerListBinding spinnerListBinding;
 
     /**
+     * @SimpleSpinnerAdapter adapter
+     * */
+    private SimpleSpinnerAdapter adapter;
+
+
+
+    /*********************************************************************************************
+     * Spinner MainViewGroup Properties under the this line
+     * (current View is Button)
+     * *******************************************************************************************/
+    /**
+     * @View arrow vector Image Visible
+     * */
+    private boolean is_arrow_visible = false;
+
+
+    /*********************************************************************************************
+     * Spinner Layout Properties under the this line
+     * (current View is PopupWindow)
+     * *******************************************************************************************/
+    /**
      * @Popup present Property
      * */
     private boolean is_spinner_outside_touch = true;
 
     /**
-     * @PopupList Title
+     * @Popup Width
      * */
-    private String spinner_list_title = "선택하세요";
-
-    /**
-     * @PopupList Title IsVisible
-     * */
-    private boolean is_spinner_list_title_visible;
-
-    /**
-     * @PopupList Item Gravity
-     * */
-    private int spinner_list_item_gravity = -1;
-
     private int spinner_width;
 
+    /**
+     * @Popup Height
+     * */
     private int spinner_height;
 
     private int spinner_pivot_x;
@@ -85,8 +99,41 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
 
     private Drawable spinner_background;
 
+
+    /**
+     * @PopupList Item Gravity
+     * */
+    private int spinner_list_item_gravity = -1;
+
     private int spinner_item_height;
 
+    /**
+     * @PopupList Title
+     * */
+    private String spinner_item_title = "선택하세요";
+
+    /**
+     * @PopupList Title IsVisible
+     * */
+    private boolean is_spinner_item_title_visible;
+
+
+
+    /*********************************************************************************************
+     * SimpleSpinner Constructor
+     * Programmatically & AttributeSet
+     *
+     * SimpleSpinner Override Method, Interface
+     * [ViewGroup]
+     * - onFinishInflate
+     * - onLayout
+     *
+     * [OnClickListener]
+     * - onClick
+     *
+     * [OnItemClickListener]
+     * - onItemClick
+     * *******************************************************************************************/
     /**
      * @Constructor : Programmatically
      */
@@ -127,10 +174,16 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
 
 
 
+    /*********************************************************************************************
+     * SimpleSpinner Framework inside Method
+     * @setAttr settings properties from XML AttributeSet
+     * @init settings eventListener, create Instances, binding popup layout
+     * @appear combine adapter, update Layout
+     * *******************************************************************************************/
     private void setAttr(AttributeSet attributeSet) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.SimpleSpinner);
 
-        is_spinner_list_title_visible = typedArray.getBoolean(R.styleable.SimpleSpinner_spinner_visibility, false);
+        is_spinner_item_title_visible = typedArray.getBoolean(R.styleable.SimpleSpinner_spinner_visibility, false);
         spinner_width = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_width, -1);
         spinner_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_height, -1);
         spinner_background = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_background);
@@ -168,6 +221,12 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
 
 
 
+    /*********************************************************************************************
+     * SimpleSpinner Framework public Methods
+     * same structure of AttributeSet(styleable-)
+     *
+     * Programmatically SimpleSpinner state setting Methods
+     * *******************************************************************************************/
     public void updateLayout() {
         // spinner layout size
         int width = spinner_width == -1 ? getWidth() - spinner_width_offset : spinner_width - spinner_width_offset;
@@ -198,16 +257,16 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
         adapter.setGravity(spinner_list_item_gravity);
     }
 
-    public void setOutsideTouchable(boolean is_popup_outside_touch) {
-        this.is_spinner_outside_touch = is_popup_outside_touch;
+    public void setOutsideTouchable(boolean is_spinner_outside_touch) {
+        this.is_spinner_outside_touch = is_spinner_outside_touch;
     }
 
-    public void setPopupListTitle(String popup_list_title) {
-        this.spinner_list_title = popup_list_title;
+    public void setPopupListTitle(String spinner_list_title) {
+        this.spinner_item_title = spinner_list_title;
     }
 
-    public void setPopupListTitleVisible(boolean is_popup_list_title_visible) {
-        this.is_spinner_list_title_visible = is_popup_list_title_visible;
-        spinnerListBinding.spinnerTitle.setVisibility(is_popup_list_title_visible? VISIBLE:GONE);
+    public void setPopupListTitleVisible(boolean is_spinner_list_title_visible) {
+        this.is_spinner_item_title_visible = is_spinner_list_title_visible;
+        spinnerListBinding.spinnerTitle.setVisibility(is_spinner_list_title_visible? VISIBLE:GONE);
     }
 }
