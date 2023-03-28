@@ -41,7 +41,7 @@ import com.b3lon9.app.simplespinner.databinding.SpinnerListBinding;
  * OnFinishInflate() > init() > onLayout()
  */
 @SuppressLint("AppCompatCustomView")
-public class SimpleSpinner extends Button implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class SimpleSpinner extends Button {
 
     /**
      * @PopupWindow popupWindow -> name : spinner
@@ -68,6 +68,17 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
      * @View arrow vector Image Visible
      * */
     private boolean is_arrow_visible = false;
+
+    /**
+     * @View Click arrow Up Drawable Image
+     * */
+    private Drawable background_up_image;
+
+    /**
+     * @View Spinner Dismiss arrow Down Drawable Image
+     * */
+    private Drawable background_down_image;
+
 
 
     /*********************************************************************************************
@@ -133,6 +144,9 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
      *
      * [OnItemClickListener]
      * - onItemClick
+     *
+     * [OnDismissListener]
+     * - onDismiss
      * *******************************************************************************************/
     /**
      * @Constructor : Programmatically
@@ -161,17 +175,28 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
         appear();
     }
 
-    @Override
-    public void onClick(View view) {
-        spinner.showAsDropDown(this);
-    }
+    private View.OnClickListener onClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            spinner.showAsDropDown(v);
+            setBackground(background_up_image);
+        }
+    };
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        setText(adapter.getItem(position));
-        spinner.dismiss();
-    }
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            setText(adapter.getItem(position));
+            spinner.dismiss();
+        }
+    };
 
+    private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
+        @Override
+        public void onDismiss() {
+            setBackground(background_down_image);
+        }
+    };
 
 
     /*********************************************************************************************
@@ -183,6 +208,9 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
     private void setAttr(AttributeSet attributeSet) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.SimpleSpinner);
 
+        background_down_image = typedArray.getDrawable(R.styleable.SimpleSpinner_background_down_drawable);
+        background_up_image = typedArray.getDrawable(R.styleable.SimpleSpinner_background_up_drawable);
+
         is_spinner_item_title_visible = typedArray.getBoolean(R.styleable.SimpleSpinner_spinner_visibility, false);
         spinner_width = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_width, -1);
         spinner_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_height, -1);
@@ -192,10 +220,13 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
         spinner_item_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_height, -1);
     }
 
-
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
-        // View ClickListener
-        this.setOnClickListener(this);
+        setOnClickListener(onClickListener);
+
+        background_down_image = background_up_image == null ? getResources().getDrawable(R.drawable.spinner_background_default_down) : background_down_image;
+        background_up_image = background_up_image == null ? getResources().getDrawable(R.drawable.spinner_background_default_up) : background_up_image;
+        setBackground(background_down_image);
 
         // spinner(popup) init
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -206,7 +237,10 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
         // spinner layout
         spinnerListBinding = SpinnerListBinding.inflate(layoutInflater);
         spinner.setContentView(spinnerListBinding.getRoot());
-        spinnerListBinding.spinnerList.setOnItemClickListener(this);
+        spinnerListBinding.spinnerList.setOnItemClickListener(onItemClickListener);
+
+        // spinner dismiss
+        spinner.setOnDismissListener(onDismissListener);
     }
 
     private void appear() {

@@ -18,6 +18,9 @@
 -->
 <resources>
     <declare-styleable name="SimpleSpinner">
+        <attr name="background_up_drawable" format="reference|color" />
+        <attr name="background_down_drawable" format="reference|color" />
+
         <attr name="spinner_visibility" format="boolean" />
         <attr name="spinner_width" format="dimension">
             <!--default width-->
