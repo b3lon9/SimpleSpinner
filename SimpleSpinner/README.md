@@ -7,15 +7,19 @@ Spinner Structure
 - Popup크기가 View크기와 동일하도록 수정 : (2023.03.23)
 - Popup 표출 위치가 View의 상단, 하단 Boolean상태로 설정창 구성
 - Popup 표출 위치 offset X, Y 설정창 구성
-- Popup 레이아웃 setter 구성 
+- Popup 레이아웃 setter 구성 : (2023.03.27)
 - Builder 구성
 - attr 구성 : (2023.03.27)
+    - background : (2023.03.28)
     - pivot
     - showDropDown Location
-    - popup item height
+    - popup item height : (2023.03.28)
     - ... 
     
 - Popup 애니메이션 적용 : (2023.03.23)
+- View 화살표 애니메이션 적용
+- View 화살표 위치 설정 적용
+- Popup Instance Name변경 popupWindow -> spinner : (2023.03.28)
 
 - 저작권 생성 : (2023.03.23)
 ```

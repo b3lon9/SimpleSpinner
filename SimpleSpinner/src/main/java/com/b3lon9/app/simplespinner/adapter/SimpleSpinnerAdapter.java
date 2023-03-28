@@ -16,7 +16,6 @@
 package com.b3lon9.app.simplespinner.adapter;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = layoutInflater.inflate(R.layout.popup_list_item, viewGroup, false);
+            view = layoutInflater.inflate(R.layout.spinner_list_item, viewGroup, false);
             ((TextView)view).setText(getItem(i));
             ((TextView)view).setGravity(gravity);
             ((TextView)view).setHeight(item_height);

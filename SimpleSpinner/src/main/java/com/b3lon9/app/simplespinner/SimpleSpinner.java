@@ -18,6 +18,7 @@ package com.b3lon9.app.simplespinner;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -27,7 +28,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 
 import com.b3lon9.app.simplespinner.adapter.SimpleSpinnerAdapter;
-import com.b3lon9.app.simplespinner.databinding.PopupListBinding;
+import com.b3lon9.app.simplespinner.databinding.SpinnerListBinding;
 
 /**
  * @SimpleSpinner Layout Cycle :
@@ -41,48 +42,50 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
     private SimpleSpinnerAdapter adapter;
 
     /**
-     * @PopupWindow popupWindow
+     * @PopupWindow popupWindow -> name : spinner
      * */
-    private PopupWindow popupWindow;
+    private PopupWindow spinner;
 
     /**
      * @ListView Title:TextView, List:ListView
      * */
-    private PopupListBinding popupListBinding;
+    private SpinnerListBinding spinnerListBinding;
 
     /**
      * @Popup present Property
      * */
-    private boolean is_popup_outside_touch = true;
+    private boolean is_spinner_outside_touch = true;
 
     /**
      * @PopupList Title
      * */
-    private String popup_list_title = "선택하세요";
+    private String spinner_list_title = "선택하세요";
 
     /**
      * @PopupList Title IsVisible
      * */
-    private boolean is_popup_list_title_visible;
+    private boolean is_spinner_list_title_visible;
 
     /**
      * @PopupList Item Gravity
      * */
-    private int popup_list_item_gravity = -1;
+    private int spinner_list_item_gravity = -1;
 
-    private int popup_width;
+    private int spinner_width;
 
-    private int popup_height;
+    private int spinner_height;
 
-    private int popup_pivot_x;
+    private int spinner_pivot_x;
 
-    private int popup_pivot_y;
+    private int spinner_pivot_y;
 
-    private int popup_width_offset;
+    private int spinner_width_offset;
 
-    private int popup_height_offset;
+    private int spinner_height_offset;
 
+    private Drawable spinner_background;
 
+    private int spinner_item_height;
 
     /**
      * @Constructor : Programmatically
@@ -113,13 +116,13 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
 
     @Override
     public void onClick(View view) {
-        popupWindow.showAsDropDown(this);
+        spinner.showAsDropDown(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         setText(adapter.getItem(position));
-        popupWindow.dismiss();
+        spinner.dismiss();
     }
 
 
@@ -127,9 +130,13 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
     private void setAttr(AttributeSet attributeSet) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.SimpleSpinner);
 
-        is_popup_list_title_visible = typedArray.getBoolean(R.styleable.SimpleSpinner_popup_visibility, false);
-        popup_width = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_popup_width, -1);
-        popup_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_popup_height, -1);
+        is_spinner_list_title_visible = typedArray.getBoolean(R.styleable.SimpleSpinner_spinner_visibility, false);
+        spinner_width = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_width, -1);
+        spinner_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_height, -1);
+        spinner_background = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_background);
+
+        // item
+        spinner_item_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_height, -1);
     }
 
 
@@ -137,30 +144,24 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
         // View ClickListener
         this.setOnClickListener(this);
 
-        // Popup init
+        // spinner(popup) init
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        popupWindow = new PopupWindow(getContext());
-        popupWindow.setOutsideTouchable(is_popup_outside_touch);
-        popupWindow.setAnimationStyle(R.style.animation_dropdown);
+        spinner = new PopupWindow(getContext());
+        spinner.setOutsideTouchable(is_spinner_outside_touch);
+        spinner.setAnimationStyle(R.style.animation_dropdown);
 
-        // Popup layout
-        popupListBinding = PopupListBinding.inflate(layoutInflater);
-        popupWindow.setContentView(popupListBinding.getRoot());
-        popupListBinding.popupList.setOnItemClickListener(this);
+        // spinner layout
+        spinnerListBinding = SpinnerListBinding.inflate(layoutInflater);
+        spinner.setContentView(spinnerListBinding.getRoot());
+        spinnerListBinding.spinnerList.setOnItemClickListener(this);
     }
 
     private void appear() {
-        // Popup list & adapter
+        // spinner list & adapter
         if (adapter == null) {
             adapter = new SimpleSpinnerAdapter(getContext(), getResources().getStringArray(R.array.color_array));
         }
-        popupListBinding.popupList.setAdapter(adapter);
-
-        // popup gravity
-        if (popup_list_item_gravity == -1) {
-            popup_list_item_gravity = getGravity();
-        }
-        adapter.setGravity(popup_list_item_gravity);
+        spinnerListBinding.spinnerList.setAdapter(adapter);
 
         updateLayout();
     }
@@ -168,32 +169,45 @@ public class SimpleSpinner extends Button implements View.OnClickListener, Adapt
 
 
     public void updateLayout() {
-        // popup layout size
-        int width = popup_width == -1 ? getWidth() - popup_width_offset : popup_width - popup_width_offset;
-        popupWindow.setWidth(width);
+        // spinner layout size
+        int width = spinner_width == -1 ? getWidth() - spinner_width_offset : spinner_width - spinner_width_offset;
+        spinner.setWidth(width);
 
-        // popup list height
-        int height = popup_height == -1 ? getWidth() - popup_height_offset : popup_height - popup_height_offset;
-        popupWindow.setHeight(height);
+        // list height
+        int height = spinner_height == -1 ? getWidth() - spinner_height_offset : spinner_height - spinner_height_offset;
+        spinner.setHeight(height);
 
-        adapter.setItemHeight(getWidth());
+        // list background
+        if (spinner_background != null) spinner.setBackgroundDrawable(spinner_background);
 
-        // popup list title check
-        if (TextUtils.isEmpty(popupListBinding.popupTitle.getText())) {
-            popupListBinding.popupTitle.setVisibility(GONE);
+        // list title check
+        if (TextUtils.isEmpty(spinnerListBinding.spinnerTitle.getText())) {
+            spinnerListBinding.spinnerTitle.setVisibility(GONE);
         }
+
+        // list items height
+        int item_height = spinner_item_height == -1 ? getHeight() : spinner_item_height;
+        adapter.setItemHeight(item_height);
+
+        // list items line spacing
+
+        // list items gravity
+        if (spinner_list_item_gravity == -1) {
+            spinner_list_item_gravity = getGravity();
+        }
+        adapter.setGravity(spinner_list_item_gravity);
     }
 
     public void setOutsideTouchable(boolean is_popup_outside_touch) {
-        this.is_popup_outside_touch = is_popup_outside_touch;
+        this.is_spinner_outside_touch = is_popup_outside_touch;
     }
 
     public void setPopupListTitle(String popup_list_title) {
-        this.popup_list_title = popup_list_title;
+        this.spinner_list_title = popup_list_title;
     }
 
     public void setPopupListTitleVisible(boolean is_popup_list_title_visible) {
-        this.is_popup_list_title_visible = is_popup_list_title_visible;
-        popupListBinding.popupTitle.setVisibility(is_popup_list_title_visible? VISIBLE:GONE);
+        this.is_spinner_list_title_visible = is_popup_list_title_visible;
+        spinnerListBinding.spinnerTitle.setVisibility(is_popup_list_title_visible? VISIBLE:GONE);
     }
 }

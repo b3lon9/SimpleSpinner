@@ -18,7 +18,7 @@
 -->
 <resources>
     <style name="animation_dropdown">
-        <item name="android:windowEnterAnimation">@anim/popup_dropdown_down</item>
-        <item name="android:windowExitAnimation">@anim/popup_dropdown_up</item>
+        <item name="android:windowEnterAnimation">@anim/spinner_dropdown_down</item>
+        <item name="android:windowExitAnimation">@anim/spinner_dropdown_up</item>
     </style>
 </resources>

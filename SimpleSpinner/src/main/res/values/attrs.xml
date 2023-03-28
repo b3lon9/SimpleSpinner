@@ -18,14 +18,34 @@
 -->
 <resources>
     <declare-styleable name="SimpleSpinner">
-        <attr name="popup_visibility" format="boolean" />
-        <attr name="popup_width" format="dimension">
+        <attr name="spinner_visibility" format="boolean" />
+        <attr name="spinner_width" format="dimension">
             <!--default width-->
             <enum name="match_parent" value="-1" />
         </attr>
-        <attr name="popup_height" format="dimension">
+        <attr name="spinner_height" format="dimension">
             <!--default height-->
             <enum name="match_parent" value="-1" />
+        </attr>
+
+        <attr name="spinner_background" format="reference|color" />
+
+        <attr name="spinner_items_gravity">
+            <!-- Push object to the top of its container, not changing its size. -->
+            <flag name="top" value="0x30" />
+            <!-- Push object to the bottom of its container, not changing its size. -->
+            <flag name="bottom" value="0x50" />
+            <!-- Push object to the left of its container, not changing its size. -->
+            <flag name="left" value="0x03" />
+            <!-- Push object to the right of its container, not changing its size. -->
+            <flag name="right" value="0x05" />
+            <!-- Place the object in the center of its container in both the vertical and horizontal axis, not changing its size. -->
+            <flag name="center" value="0x11" />
+        </attr>
+
+        <!--spinner item height-->
+        <attr name="spinner_items_height" format="dimension">
+            <enum name="wrap_content" value="-1" />
         </attr>
     </declare-styleable>
 </resources>
