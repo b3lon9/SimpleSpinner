@@ -27,5 +27,10 @@ Spinner Structure
     - 위치 설정 불가 이미지 대체
 - Popup Instance Name변경 popupWindow -> spinner : (2023.03.28)
 
+- Adapter Flexible (Overloading)
+    - String[] 형태
+    - String 단순 ADD형태
+    - ArrayList 형태
+
 - 저작권 생성 : (2023.03.23)
 ```

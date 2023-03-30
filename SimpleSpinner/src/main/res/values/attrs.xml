@@ -31,7 +31,14 @@
             <enum name="match_parent" value="-1" />
         </attr>
 
+        <!--spinner list background-->
         <attr name="spinner_background" format="reference|color" />
+
+        <!--spinner list backgroundColor-->
+        <attr name="spinner_background_color" format="reference|color" />
+
+        <!--spinner item array-->
+        <attr name="spinner_items_array" format="reference" />
 
         <attr name="spinner_items_gravity">
             <!-- Push object to the top of its container, not changing its size. -->

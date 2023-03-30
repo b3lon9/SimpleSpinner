@@ -24,8 +24,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.PopupWindow;
+
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.b3lon9.app.simplespinner.adapter.SimpleSpinnerAdapter;
 import com.b3lon9.app.simplespinner.databinding.SpinnerListBinding;
@@ -41,7 +42,7 @@ import com.b3lon9.app.simplespinner.databinding.SpinnerListBinding;
  * OnFinishInflate() > init() > onLayout()
  */
 @SuppressLint("AppCompatCustomView")
-public class SimpleSpinner extends Button {
+public class SimpleSpinner extends AppCompatButton implements View.OnClickListener {
 
     /**
      * @PopupWindow popupWindow -> name : spinner
@@ -110,6 +111,7 @@ public class SimpleSpinner extends Button {
 
     private Drawable spinner_background;
 
+    private Drawable spinner_background_color;
 
     /**
      * @PopupList Item Gravity
@@ -175,13 +177,11 @@ public class SimpleSpinner extends Button {
         appear();
     }
 
-    private View.OnClickListener onClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            spinner.showAsDropDown(v);
-            setBackground(background_up_image);
-        }
-    };
+    @Override
+    public void onClick(View v) {
+        spinner.showAsDropDown(this);
+        setBackground(background_up_image);
+    }
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -215,6 +215,7 @@ public class SimpleSpinner extends Button {
         spinner_width = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_width, -1);
         spinner_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_height, -1);
         spinner_background = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_background);
+        spinner_background_color = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_background_color);
 
         // item
         spinner_item_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_height, -1);
@@ -222,7 +223,7 @@ public class SimpleSpinner extends Button {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
-        setOnClickListener(onClickListener);
+        setOnClickListener(this);
 
         background_down_image = background_up_image == null ? getResources().getDrawable(R.drawable.spinner_background_default_down) : background_down_image;
         background_up_image = background_up_image == null ? getResources().getDrawable(R.drawable.spinner_background_default_up) : background_up_image;
@@ -271,7 +272,12 @@ public class SimpleSpinner extends Button {
         spinner.setHeight(height);
 
         // list background
-        if (spinner_background != null) spinner.setBackgroundDrawable(spinner_background);
+        if (spinner_background != null) {
+            spinner.setBackgroundDrawable(spinner_background);
+        } else if (spinner_background_color != null) {
+            spinnerListBinding.spinnerBase.setBackground(spinner_background_color);
+        }
+
 
         // list title check
         if (TextUtils.isEmpty(spinnerListBinding.spinnerTitle.getText())) {
