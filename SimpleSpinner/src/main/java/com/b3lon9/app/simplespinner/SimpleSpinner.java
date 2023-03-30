@@ -141,6 +141,9 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
     private int spinner_item_padding_right;
     private int spinner_item_padding_bottom;
 
+    private int spinner_item_text_color;
+    private float spinner_item_text_size;
+
     /**
      * @PopupList Title
      * */
@@ -242,12 +245,16 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         spinner_background_color = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_background_color);
 
         // item
+        spinner_item_text_size = typedArray.getDimension(R.styleable.SimpleSpinner_spinner_items_text_size, getTextSize());
+        spinner_item_text_color = typedArray.getColor(R.styleable.SimpleSpinner_spinner_items_text_color, getCurrentTextColor());
         spinner_item_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_height, -1);
         spinner_item_gravity = typedArray.getInt(R.styleable.SimpleSpinner_spinner_items_gravity, -1);
+
         spinner_item_padding_left = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_left, 0);
         spinner_item_padding_top = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_top, 0);
         spinner_item_padding_right = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_right, 0);
         spinner_item_padding_bottom = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_bottom, 0);
+
 
         arrayData = typedArray.getTextArray(R.styleable.SimpleSpinner_spinner_entries);
     }
@@ -337,6 +344,8 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
                     spinner_item_padding_top,
                     spinner_item_padding_right,
                     spinner_item_padding_bottom);
+            simpleSpinnerAdapter.setTextSize(spinner_item_text_size);
+            simpleSpinnerAdapter.setTextColor(spinner_item_text_color);
         }
     }
     
@@ -356,6 +365,8 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         this.spinner_height = height;
     }
 
+
+
     public void setSpinnerItemHeight(int height) {
         this.spinner_item_height = height;
     }
@@ -369,6 +380,14 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         this.spinner_item_padding_top = top;
         this.spinner_item_padding_right = right;
         this.spinner_item_padding_bottom = bottom;
+    }
+
+    public void setSpinnerItemTextSize(float size) {
+        this.spinner_item_text_size = size;
+    }
+
+    public void setSpinnerItemTextColor(int color) {
+        this.spinner_item_text_color = color;
     }
 
     public void setOutsideTouchable(boolean is_spinner_outside_touch) {

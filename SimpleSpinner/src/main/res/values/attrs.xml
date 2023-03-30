@@ -72,5 +72,10 @@
         <attr name="spinner_items_padding_right" format="dimension" />
         <attr name="spinner_items_padding_bottom" format="dimension" />
 
+        <!--spinner item text color-->
+        <attr name="spinner_items_text_color" format="color" />
+
+        <!--spinner item text size-->
+        <attr name="spinner_items_text_size" format="dimension" />
     </declare-styleable>
 </resources>

@@ -36,6 +36,9 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
     private int padding_right;
     private int padding_bottom;
 
+    private int textColor;
+    private float textSize;
+
     public SimpleSpinnerAdapter(Context context) {
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -68,6 +71,8 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
             ((TextView)view).setGravity(gravity);
             ((TextView)view).setHeight(item_height);
             ((TextView)view).setPadding(padding_left, padding_top, padding_right, padding_bottom);
+            ((TextView)view).setTextSize(textSize);
+            ((TextView)view).setTextColor(textColor);
         }
 
         return view;
@@ -104,5 +109,13 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
         this.padding_top = top;
         this.padding_right = right;
         this.padding_bottom = bottom;
+    }
+
+    public void setTextColor(int color) {
+        this.textColor = color;
+    }
+
+    public void setTextSize(float size) {
+        this.textSize = size;
     }
 }
