@@ -126,9 +126,20 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
     /**
      * @PopupList Item Gravity
      * */
-    private int spinner_list_item_gravity = -1;
+    private int spinner_item_gravity = -1;
 
+    /**
+     * @PopupList Item Height
+     * */
     private int spinner_item_height;
+
+    /**
+     * @PopupList Item Padding
+     * */
+    private int spinner_item_padding_left;
+    private int spinner_item_padding_top;
+    private int spinner_item_padding_right;
+    private int spinner_item_padding_bottom;
 
     /**
      * @PopupList Title
@@ -232,6 +243,11 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
 
         // item
         spinner_item_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_height, -1);
+        spinner_item_gravity = typedArray.getInt(R.styleable.SimpleSpinner_spinner_items_gravity, -1);
+        spinner_item_padding_left = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_left, 0);
+        spinner_item_padding_top = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_top, 0);
+        spinner_item_padding_right = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_right, 0);
+        spinner_item_padding_bottom = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_bottom, 0);
 
         arrayData = typedArray.getTextArray(R.styleable.SimpleSpinner_spinner_entries);
     }
@@ -288,6 +304,14 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
             spinnerListBinding.spinnerBase.setBackground(spinner_background_color);
         }
 
+        // spinner layout size
+        int width = spinner_width == -1 ? getWidth() - spinner_width_offset : spinner_width - spinner_width_offset;
+        spinner.setWidth(width);
+
+        if (spinner_height != -1) {
+            //int itemHeight = spinner_item_height * arrayData.length;
+            spinner.setHeight(spinner_height - spinner_height_offset);
+        }
 
         // list title check
         if (TextUtils.isEmpty(spinnerListBinding.spinnerTitle.getText())) {
@@ -300,23 +324,19 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         // list items line spacing
 
         // list items gravity
-        if (spinner_list_item_gravity == -1) {
-            spinner_list_item_gravity = getGravity();
+        if (spinner_item_gravity == -1) {
+            spinner_item_gravity = getGravity();
         }
 
         // SimpleSpinnerAdapter init
         if (simpleSpinnerAdapter != null) {
             simpleSpinnerAdapter.setItemHeight(item_height);
-            simpleSpinnerAdapter.setGravity(spinner_list_item_gravity);
-        }
-
-        // spinner layout size
-        int width = spinner_width == -1 ? getWidth() - spinner_width_offset : spinner_width - spinner_width_offset;
-        spinner.setWidth(width);
-
-        if (spinner_height != -1) {
-            //int itemHeight = spinner_item_height * arrayData.length;
-            spinner.setHeight(spinner_height - spinner_height_offset);
+            simpleSpinnerAdapter.setGravity(spinner_item_gravity);
+            simpleSpinnerAdapter.setPadding(
+                    spinner_item_padding_left,
+                    spinner_item_padding_top,
+                    spinner_item_padding_right,
+                    spinner_item_padding_bottom);
         }
     }
     
@@ -338,6 +358,17 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
 
     public void setSpinnerItemHeight(int height) {
         this.spinner_item_height = height;
+    }
+
+    public void setSpinnerItemGravity(int gravity) {
+        this.spinner_item_gravity = gravity;
+    }
+
+    public void setSpinnerItemPadding(int left, int top, int right, int bottom) {
+        this.spinner_item_padding_left = left;
+        this.spinner_item_padding_top = top;
+        this.spinner_item_padding_right = right;
+        this.spinner_item_padding_bottom = bottom;
     }
 
     public void setOutsideTouchable(boolean is_spinner_outside_touch) {

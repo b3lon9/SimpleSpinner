@@ -31,6 +31,11 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
     private int item_height;
     private int gravity;
 
+    private int padding_left;
+    private int padding_top;
+    private int padding_right;
+    private int padding_bottom;
+
     public SimpleSpinnerAdapter(Context context) {
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -62,6 +67,7 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
             ((TextView)view).setText(getItem(i));
             ((TextView)view).setGravity(gravity);
             ((TextView)view).setHeight(item_height);
+            ((TextView)view).setPadding(padding_left, padding_top, padding_right, padding_bottom);
         }
 
         return view;
@@ -88,5 +94,15 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
      */
     public void setGravity(int gravity) {
         this.gravity = gravity;
+    }
+
+    /**
+     * @padding padding TextView Item
+     * */
+    public void setPadding(int left, int top, int right, int bottom) {
+        this.padding_left = left;
+        this.padding_top = top;
+        this.padding_right = right;
+        this.padding_bottom = bottom;
     }
 }

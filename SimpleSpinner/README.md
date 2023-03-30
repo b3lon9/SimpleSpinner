@@ -25,8 +25,7 @@
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.custom_animation);
         animation.setDuration(1000);
         view.startAnimation(animation);
-- View 화살표 위치 설정 적용 : (2023.03.28) 
-    - 위치 설정 불가 이미지 대체
+- View 화살표 위치 설정 적용 : (2023.03.28) ▶ 위치 설정 불가 이미지 대체
 - Popup Instance Name변경 popupWindow -> spinner : (2023.03.28)
 ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 [Code Order] Programmatically : setAdapter() → Class : onLayout() 
@@ -35,6 +34,9 @@
     - String[] 형태 (2023.03.30) ▶ Charsequence
     - String 단순 ADD형태 
     - ArrayList 형태
+
+- 리스트 아이템 gravity 설정 : (2023.03.30)
+- 리스트 아이템 padding 설정(여백용도) : (2023.03.30) 
 
 - 저작권 생성 : (2023.03.23)
 ```
