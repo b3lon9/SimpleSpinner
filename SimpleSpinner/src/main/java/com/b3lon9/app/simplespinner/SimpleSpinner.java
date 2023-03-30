@@ -24,12 +24,14 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.PopupWindow;
 
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.b3lon9.app.simplespinner.adapter.SimpleSpinnerAdapter;
 import com.b3lon9.app.simplespinner.databinding.SpinnerListBinding;
+import com.b3lon9.app.simplespinner.util.Debug;
 
 /**
  * Spinner means PopupWindow
@@ -42,7 +44,7 @@ import com.b3lon9.app.simplespinner.databinding.SpinnerListBinding;
  * OnFinishInflate() > init() > onLayout()
  */
 @SuppressLint("AppCompatCustomView")
-public class SimpleSpinner extends AppCompatButton implements View.OnClickListener {
+public class SimpleSpinner extends AppCompatButton implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     /**
      * @PopupWindow popupWindow -> name : spinner
@@ -55,11 +57,19 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
     private SpinnerListBinding spinnerListBinding;
 
     /**
-     * @SimpleSpinnerAdapter adapter
+     * @SimpleSpinnerAdapter simpleAdapter
      * */
-    private SimpleSpinnerAdapter adapter;
+    private SimpleSpinnerAdapter simpleSpinnerAdapter;
 
+    /**
+     * @BaseAdapter baseAdapter
+     * */
+    private BaseAdapter baseAdapter;
 
+    /**
+     * @Array String[] array
+     * */
+    private CharSequence[] arrayData;
 
     /*********************************************************************************************
      * Spinner MainViewGroup Properties under the this line
@@ -174,6 +184,7 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+        Debug.Write("..................onLayout...........!!!");
         appear();
     }
 
@@ -183,13 +194,15 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         setBackground(background_up_image);
     }
 
-    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            setText(adapter.getItem(position));
-            spinner.dismiss();
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (simpleSpinnerAdapter != null) {
+            setText(simpleSpinnerAdapter.getItem(position));
+        } else if (baseAdapter != null) {
+            setText((CharSequence) baseAdapter.getItem(position));
         }
-    };
+        spinner.dismiss();
+    }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
         @Override
@@ -219,11 +232,13 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
 
         // item
         spinner_item_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_height, -1);
+
+        arrayData = typedArray.getTextArray(R.styleable.SimpleSpinner_spinner_entries);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
-        setOnClickListener(this);
+        setOnClickListener(this::onClick);
 
         background_down_image = background_up_image == null ? getResources().getDrawable(R.drawable.spinner_background_default_down) : background_down_image;
         background_up_image = background_up_image == null ? getResources().getDrawable(R.drawable.spinner_background_default_up) : background_up_image;
@@ -238,7 +253,7 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         // spinner layout
         spinnerListBinding = SpinnerListBinding.inflate(layoutInflater);
         spinner.setContentView(spinnerListBinding.getRoot());
-        spinnerListBinding.spinnerList.setOnItemClickListener(onItemClickListener);
+        spinnerListBinding.spinnerList.setOnItemClickListener(this::onItemClick);
 
         // spinner dismiss
         spinner.setOnDismissListener(onDismissListener);
@@ -246,10 +261,13 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
 
     private void appear() {
         // spinner list & adapter
-        if (adapter == null) {
-            adapter = new SimpleSpinnerAdapter(getContext(), getResources().getStringArray(R.array.color_array));
+        if (simpleSpinnerAdapter == null) {
+            simpleSpinnerAdapter = new SimpleSpinnerAdapter(getContext(), getResources().getStringArray(R.array.color_array));
+            spinnerListBinding.spinnerList.setAdapter(simpleSpinnerAdapter);
+            if (arrayData != null) {
+                simpleSpinnerAdapter.setData(arrayData);
+            }
         }
-        spinnerListBinding.spinnerList.setAdapter(adapter);
 
         updateLayout();
     }
@@ -263,14 +281,6 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
      * Programmatically SimpleSpinner state setting Methods
      * *******************************************************************************************/
     public void updateLayout() {
-        // spinner layout size
-        int width = spinner_width == -1 ? getWidth() - spinner_width_offset : spinner_width - spinner_width_offset;
-        spinner.setWidth(width);
-
-        // list height
-        int height = spinner_height == -1 ? getWidth() - spinner_height_offset : spinner_height - spinner_height_offset;
-        spinner.setHeight(height);
-
         // list background
         if (spinner_background != null) {
             spinner.setBackgroundDrawable(spinner_background);
@@ -286,7 +296,6 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
 
         // list items height
         int item_height = spinner_item_height == -1 ? getHeight() : spinner_item_height;
-        adapter.setItemHeight(item_height);
 
         // list items line spacing
 
@@ -294,18 +303,52 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         if (spinner_list_item_gravity == -1) {
             spinner_list_item_gravity = getGravity();
         }
-        adapter.setGravity(spinner_list_item_gravity);
+
+        // SimpleSpinnerAdapter init
+        if (simpleSpinnerAdapter != null) {
+            simpleSpinnerAdapter.setItemHeight(item_height);
+            simpleSpinnerAdapter.setGravity(spinner_list_item_gravity);
+        }
+
+        // spinner layout size
+        int width = spinner_width == -1 ? getWidth() - spinner_width_offset : spinner_width - spinner_width_offset;
+        spinner.setWidth(width);
+
+        if (spinner_height != -1) {
+            //int itemHeight = spinner_item_height * arrayData.length;
+            spinner.setHeight(spinner_height - spinner_height_offset);
+        }
+    }
+    
+    public void setAdapter(CharSequence[] array) {
+        this.arrayData = array;
+    }
+
+    public void setAdapter(SimpleSpinnerAdapter adapter) {
+        this.simpleSpinnerAdapter = adapter;
+    }
+
+    public void setAdapter(BaseAdapter adapter) {
+        this.baseAdapter = adapter;
+    }
+
+    public void setSpinnerHeight(int height) {
+        this.spinner_height = height;
+    }
+
+    public void setSpinnerItemHeight(int height) {
+        this.spinner_item_height = height;
     }
 
     public void setOutsideTouchable(boolean is_spinner_outside_touch) {
         this.is_spinner_outside_touch = is_spinner_outside_touch;
     }
 
-    public void setPopupListTitle(String spinner_list_title) {
+    public void setSpinnerListTitle(String spinner_list_title) {
         this.spinner_item_title = spinner_list_title;
     }
 
-    public void setPopupListTitleVisible(boolean is_spinner_list_title_visible) {
+    public void setSpinnerListTitleVisible(boolean is_spinner_list_title_visible) {
         this.is_spinner_item_title_visible = is_spinner_list_title_visible;
         spinnerListBinding.spinnerTitle.setVisibility(is_spinner_list_title_visible? VISIBLE:GONE);
     }

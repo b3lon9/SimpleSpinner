@@ -26,7 +26,7 @@ import com.b3lon9.app.simplespinner.R;
 
 public class SimpleSpinnerAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
-    private String[] data;
+    private CharSequence[] data;
 
     private int item_height;
     private int gravity;
@@ -35,7 +35,7 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public SimpleSpinnerAdapter(Context context, String[] data) {
+    public SimpleSpinnerAdapter(Context context, CharSequence[] data) {
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.data = data;
     }
@@ -47,7 +47,7 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
 
     @Override
     public String getItem(int i) {
-        return data[i];
+        return data[i].toString();
     }
 
     @Override
@@ -71,8 +71,9 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
     /**
      * @param data adapter item list
      */
-    public void setData(String[] data) {
+    public void setData(CharSequence[] data) {
         this.data = data;
+        notifyDataSetChanged();
     }
 
     /**
