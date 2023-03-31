@@ -198,7 +198,6 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        Debug.Write("..................onLayout...........!!!");
         appear();
     }
 
@@ -245,7 +244,7 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         spinner_background_color = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_background_color);
 
         // item
-        spinner_item_text_size = typedArray.getDimension(R.styleable.SimpleSpinner_spinner_items_text_size, getTextSize());
+        spinner_item_text_size = typedArray.getDimension(R.styleable.SimpleSpinner_spinner_items_text_size, getTextSize()) / getResources().getDisplayMetrics().density;
         spinner_item_text_color = typedArray.getColor(R.styleable.SimpleSpinner_spinner_items_text_color, getCurrentTextColor());
         spinner_item_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_height, -1);
         spinner_item_gravity = typedArray.getInt(R.styleable.SimpleSpinner_spinner_items_gravity, -1);
@@ -348,15 +347,24 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
             simpleSpinnerAdapter.setTextColor(spinner_item_text_color);
         }
     }
-    
+
+    /**
+     *  @Overloading setAdapter
+     * */
     public void setAdapter(CharSequence[] array) {
         this.arrayData = array;
     }
 
+    /**
+     * @Overloading setAdapter
+     * */
     public void setAdapter(SimpleSpinnerAdapter adapter) {
         this.simpleSpinnerAdapter = adapter;
     }
 
+    /**
+     * @Overloading setAdapter
+     * */
     public void setAdapter(BaseAdapter adapter) {
         this.baseAdapter = adapter;
     }

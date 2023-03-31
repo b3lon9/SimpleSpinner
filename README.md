@@ -1,7 +1,8 @@
 #### SimpleSpinner
 
 [![](https://jitpack.io/v/b3lon9/SimpleSpinner.svg)](https://jitpack.io/#b3lon9/SimpleSpinner)
-```
+
+```gradle
 allprojects {
     repositories {
         ...
@@ -10,14 +11,26 @@ allprojects {
 }
 ```
 
-```
+```gradle
 dependencies {
         implementation 'com.github.b3lon9:SimpleSpinner:1.0.4'
 }
 ```
 <br />
 
+#### Use
+
+```gradle
+    <com.b3lon9.app.simplespinner.SimpleSpinner
+        android:id="@+id/simplespinner"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"/>
+```
+
+<br />
+
 #### LICENCE
+
 ```agsl
 Copyright 2023 Neander
 
