@@ -21,11 +21,17 @@ dependencies {
 #### Use
 
 ```gradle
-    <com.b3lon9.app.simplespinner.SimpleSpinner
-        android:id="@+id/simplespinner"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"/>
+<com.b3lon9.app.simplespinner.SimpleSpinner
+    android:id="@+id/simplespinner"
+    android:layout_width="240dp"
+    android:layout_height="wrap_content"/>
 ```
+
+<div style="align:center">
+<img src="https://user-images.githubusercontent.com/119420119/229076543-b478f73a-6606-4e2f-9feb-b5be54e290af.png" align="center" height="600">
+<img src="https://user-images.githubusercontent.com/119420119/229076575-e538a0fb-c7e1-4295-a007-2d8526e44744.png" align="center" height="600">
+<img src="https://user-images.githubusercontent.com/119420119/229088165-f9bcc9fd-8648-418f-b814-8dbcb20254a8.png" align="center" height="600">
+</div>
 
 <br />
 
