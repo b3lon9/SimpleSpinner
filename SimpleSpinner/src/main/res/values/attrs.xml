@@ -77,5 +77,8 @@
 
         <!--spinner item text size-->
         <attr name="spinner_items_text_size" format="dimension" />
+
+        <!--spinner item text drawable-->
+        <attr name="spinner_items_text_background" format="reference|color" />
     </declare-styleable>
 </resources>

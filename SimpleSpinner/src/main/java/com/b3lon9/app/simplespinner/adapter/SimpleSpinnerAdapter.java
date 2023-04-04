@@ -16,6 +16,7 @@
 package com.b3lon9.app.simplespinner.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
 
     private int textColor;
     private float textSize;
+    private Drawable textBackground;
 
     public SimpleSpinnerAdapter(Context context) {
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -73,6 +75,7 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
             ((TextView)view).setPadding(padding_left, padding_top, padding_right, padding_bottom);
             ((TextView)view).setTextSize(textSize);
             ((TextView)view).setTextColor(textColor);
+            if (textBackground != null) ((TextView)view).setBackground(textBackground);
         }
 
         return view;
@@ -117,5 +120,9 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
 
     public void setTextSize(float size) {
         this.textSize = size;
+    }
+
+    public void setTextBackground(Drawable background) {
+        this.textBackground = background;
     }
 }

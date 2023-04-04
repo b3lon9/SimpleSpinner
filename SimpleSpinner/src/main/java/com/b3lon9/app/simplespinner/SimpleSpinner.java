@@ -31,7 +31,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.b3lon9.app.simplespinner.adapter.SimpleSpinnerAdapter;
 import com.b3lon9.app.simplespinner.databinding.SpinnerListBinding;
-import com.b3lon9.app.simplespinner.util.Debug;
 
 /**
  * Spinner means PopupWindow
@@ -144,6 +143,8 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
     private int spinner_item_text_color;
     private float spinner_item_text_size;
 
+    private Drawable spinner_item_text_background;
+
     /**
      * @PopupList Title
      * */
@@ -246,6 +247,7 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         // item
         spinner_item_text_size = typedArray.getDimension(R.styleable.SimpleSpinner_spinner_items_text_size, getTextSize()) / getResources().getDisplayMetrics().density;
         spinner_item_text_color = typedArray.getColor(R.styleable.SimpleSpinner_spinner_items_text_color, getCurrentTextColor());
+        spinner_item_text_background = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_items_text_background);
         spinner_item_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_height, -1);
         spinner_item_gravity = typedArray.getInt(R.styleable.SimpleSpinner_spinner_items_gravity, -1);
 
@@ -253,7 +255,6 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         spinner_item_padding_top = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_top, 0);
         spinner_item_padding_right = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_right, 0);
         spinner_item_padding_bottom = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_bottom, 0);
-
 
         arrayData = typedArray.getTextArray(R.styleable.SimpleSpinner_spinner_entries);
     }
@@ -345,6 +346,7 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
                     spinner_item_padding_bottom);
             simpleSpinnerAdapter.setTextSize(spinner_item_text_size);
             simpleSpinnerAdapter.setTextColor(spinner_item_text_color);
+            simpleSpinnerAdapter.setTextBackground(spinner_item_text_background);
         }
     }
 
@@ -396,6 +398,10 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
 
     public void setSpinnerItemTextColor(int color) {
         this.spinner_item_text_color = color;
+    }
+
+    public void setSpinner_ItemTextBackground(Drawable background) {
+        this.spinner_item_text_background = background;
     }
 
     public void setOutsideTouchable(boolean is_spinner_outside_touch) {
