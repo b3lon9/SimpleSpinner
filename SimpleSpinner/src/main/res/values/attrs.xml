@@ -37,6 +37,15 @@
         <!--spinner list backgroundColor-->
         <attr name="spinner_background_color" format="reference|color" />
 
+        <!--spinner list divider line color-->
+        <attr name="spinner_divider_color" format="reference|color" />
+
+        <!--spinner list divider line height-->
+        <attr name="spinner_divider_height" format="dimension" />
+
+        <!--spinner list divider line visible : default = true-->
+        <attr name="spinner_divider_visible" format="boolean"/>
+
         <!--spinner item text array-->
         <attr name="spinner_entries" format="reference" />
 
