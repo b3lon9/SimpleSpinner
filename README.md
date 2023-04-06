@@ -5,7 +5,6 @@
 ```gradle
 allprojects {
     repositories {
-        ...
         maven { url 'https://jitpack.io' }
     }
 }
@@ -13,7 +12,7 @@ allprojects {
 
 ```gradle
 dependencies {
-        implementation 'com.github.b3lon9:SimpleSpinner:1.0.6'
+        implementation 'com.github.b3lon9:SimpleSpinner:1.0.7'
 }
 ```
 <br />
@@ -32,6 +31,26 @@ dependencies {
 <img src="https://user-images.githubusercontent.com/119420119/229076575-e538a0fb-c7e1-4295-a007-2d8526e44744.png" align="center" height="600">
 <img src="https://user-images.githubusercontent.com/119420119/229088165-f9bcc9fd-8648-418f-b814-8dbcb20254a8.png" align="center" height="600">
 </div>
+
+<br />
+
+#### Sample Code
+
+```gradle
+<com.b3lon9.app.simplespinner.SimpleSpinner
+    android:id="@+id/simplespinner"
+    android:layout_width="240dp"
+    android:layout_height="wrap_content"
+    android:textColor="@color/black"
+    app:spinner_entries="@array/color_array"
+    app:spinner_items_text_color="@color/black"
+    app:spinner_items_text_size="21sp"
+    app:spinner_items_gravity="center"
+    app:spinner_divider_color="@color/light_gray"
+    app:spinner_divider_height="1dp"/>
+    
+    <!--app:spinner_divider_visible="false"-->
+```
 
 <br />
 
