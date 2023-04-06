@@ -350,19 +350,17 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
 
         // list divider
         if (spinner_divider_visible) {
-            spinnerListBinding.spinnerList.setDividerHeight(spinner_divider_height);
-
             if (spinner_divider_color != Color.TRANSPARENT) {
                 spinnerListBinding.spinnerList.setDivider(new ColorDrawable(spinner_divider_color));
             }
+
+            spinnerListBinding.spinnerList.setDividerHeight(spinner_divider_height);
         } else {
             spinnerListBinding.spinnerList.setDivider(null);
         }
 
         // list items height
         int item_height = spinner_item_height == -1 ? getHeight() : spinner_item_height;
-
-        // list items line spacing
 
         // list items gravity
         if (spinner_item_gravity == -1) {
