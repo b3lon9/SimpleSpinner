@@ -19,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -32,6 +33,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.b3lon9.app.simplespinner.adapter.SimpleSpinnerAdapter;
 import com.b3lon9.app.simplespinner.databinding.SpinnerListBinding;
+import com.b3lon9.app.simplespinner.util.Debug;
 
 /**
  * Spinner means PopupWindow
@@ -129,7 +131,7 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
      * @height list boundary height
      * @visible list boundary visible default : true
      */
-    private Drawable spinner_divider_color;
+    private int spinner_divider_color;
 
     private int spinner_divider_height;
 
@@ -259,8 +261,8 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         spinner_background_color = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_background_color);
 
         // divider
-        spinner_divider_color = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_divider_color);
-        spinner_divider_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_divider_height, 3);
+        spinner_divider_color = typedArray.getColor(R.styleable.SimpleSpinner_spinner_divider_color, Color.TRANSPARENT);
+        spinner_divider_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_divider_height, getResources().getDimensionPixelSize(R.dimen.divider_height_default));
         spinner_divider_visible = typedArray.getBoolean(R.styleable.SimpleSpinner_spinner_divider_visible, true);
 
         // item
@@ -276,6 +278,8 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         spinner_item_padding_bottom = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_bottom, 0);
 
         arrayData = typedArray.getTextArray(R.styleable.SimpleSpinner_spinner_entries);
+
+        typedArray.recycle();
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -348,8 +352,8 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         if (spinner_divider_visible) {
             spinnerListBinding.spinnerList.setDividerHeight(spinner_divider_height);
 
-            if (spinner_divider_color != null) {
-                spinnerListBinding.spinnerList.setDivider(spinner_divider_color);
+            if (spinner_divider_color != Color.TRANSPARENT) {
+                spinnerListBinding.spinnerList.setDivider(new ColorDrawable(spinner_divider_color));
             }
         } else {
             spinnerListBinding.spinnerList.setDivider(null);
@@ -416,6 +420,18 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
     public void setSpinnerListTitleVisible(boolean is_spinner_list_title_visible) {
         this.is_spinner_item_title_visible = is_spinner_list_title_visible;
         spinnerListBinding.spinnerTitle.setVisibility(is_spinner_list_title_visible? VISIBLE:GONE);
+    }
+
+    public void setSpinnerDividerColor(int color) {
+        this.spinner_divider_color = color;
+    }
+
+    public void setSpinnerDividerHeight(int height) {
+        this.spinner_divider_height = height;
+    }
+
+    public void setSpinnerDividerVisible(boolean visible) {
+        this.spinner_divider_visible = visible;
     }
 
     public void setSpinnerItemHeight(int height) {
