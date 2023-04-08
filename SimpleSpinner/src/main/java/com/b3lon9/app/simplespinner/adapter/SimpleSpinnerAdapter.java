@@ -69,14 +69,16 @@ public class SimpleSpinnerAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
             view = layoutInflater.inflate(R.layout.spinner_list_item, viewGroup, false);
-            ((TextView)view).setText(getItem(i));
-            ((TextView)view).setGravity(gravity);
-            ((TextView)view).setHeight(item_height);
-            ((TextView)view).setPadding(padding_left, padding_top, padding_right, padding_bottom);
-            ((TextView)view).setTextSize(textSize);
-            ((TextView)view).setTextColor(textColor);
-            if (textBackground != null) ((TextView)view).setBackground(textBackground);
         }
+
+        TextView textView = view.findViewById(R.id.item);
+        textView.setText(getItem(i));
+        textView.setGravity(gravity);
+        textView.setHeight(item_height);
+        textView.setPadding(padding_left, padding_top, padding_right, padding_bottom);
+        textView.setTextSize(textSize);
+        textView.setTextColor(textColor);
+        if (textBackground != null) textView.setBackground(textBackground);
 
         return view;
     }
