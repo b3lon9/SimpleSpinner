@@ -13,7 +13,7 @@ allprojects {
 
 ```gradle
 dependencies {
-        implementation 'com.github.b3lon9:SimpleSpinner:1.0.8'
+        implementation 'com.github.b3lon9:SimpleSpinner:1.0.9'
 }
 ```
 <br />
@@ -51,7 +51,10 @@ dependencies {
     app:spinner_divider_color="@color/light_gray"
     app:spinner_divider_height="1dp"/>
     
-    <!--app:spinner_divider_visible="false"-->
+    <!--default attribute
+    app:spinner_divider_visible="false"
+    app:spinner_dropdown_cover="false"
+    -->
 ```
 
 <br />
