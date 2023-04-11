@@ -126,6 +126,11 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
     private Drawable spinner_background_color;
 
     /**
+     * @Popup ShowDropDown Position UI Top/Bottom(default)
+     * */
+    private boolean spinner_dropdown_cover;
+
+    /**
      * Divider
      * @color list boundary color
      * @height list boundary height
@@ -220,7 +225,7 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        spinner.showAsDropDown(this);
+        spinner.showAsDropDown(this, 0 , spinner_dropdown_cover ? -getHeight() : 0);
         setBackground(background_up_image);
     }
 
@@ -259,6 +264,7 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         spinner_height = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_height, -1);
         spinner_background = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_background);
         spinner_background_color = typedArray.getDrawable(R.styleable.SimpleSpinner_spinner_background_color);
+        spinner_dropdown_cover = typedArray.getBoolean(R.styleable.SimpleSpinner_spinner_dropdown_cover, false);
 
         // divider
         spinner_divider_color = typedArray.getColor(R.styleable.SimpleSpinner_spinner_divider_color, Color.TRANSPARENT);

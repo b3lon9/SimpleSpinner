@@ -6,15 +6,14 @@
 - 선택한 아이템은 View에 표시되어야함 : (2023.03.22)
 
 - Popup크기가 View크기와 동일하도록 수정 : (2023.03.23)
-- Popup 표출 위치가 View의 상단, 하단 Boolean상태로 설정창 구성
+- Popup 표출 위치가 View의 상단, 하단 Boolean상태로 설정창 구성 : (2023.04.11) 'offset추가시 수정필요'
 - Popup 표출 위치 offset X, Y 설정창 구성
 - Popup 레이아웃 setter 구성 : (2023.03.27)
 - Builder 구성
 ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 - attr 구성 : (2023.03.27)
     - background : (2023.03.28)
-    - pivot
-    - showDropDown Location
+    - showDropDown Location : (2023.04.11)
     - popup item height : (2023.03.28)
     - ... 
     

@@ -46,6 +46,9 @@
         <!--spinner list divider line visible : default = true-->
         <attr name="spinner_divider_visible" format="boolean"/>
 
+        <!--spinner show dropdown position cover true/false(default)-->
+        <attr name="spinner_dropdown_cover" format="boolean" />
+
         <!--spinner item text array-->
         <attr name="spinner_entries" format="reference" />
 
