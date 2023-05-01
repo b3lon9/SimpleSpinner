@@ -283,9 +283,12 @@ public class SimpleSpinner extends AppCompatButton implements View.OnClickListen
         spinner_item_padding_right = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_right, 0);
         spinner_item_padding_bottom = typedArray.getDimensionPixelSize(R.styleable.SimpleSpinner_spinner_items_padding_bottom, 0);
 
-        arrayData = typedArray.getTextArray(R.styleable.SimpleSpinner_spinner_entries);
+        try {
+            arrayData = typedArray.getTextArray(R.styleable.SimpleSpinner_spinner_entries);
+        } finally {
+            typedArray.recycle();
+        }
 
-        typedArray.recycle();
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
